@@ -1,0 +1,14 @@
+uv run fastapi dev
+uvicorn main:app --reload
+
+get: 조회
+post
+
+
+라우팅
+/todos/1 => 누가 응답할 것인가? (함수)
+
+
+다중 라우팅 => APIROUTER
+/users/ CRUD
+/items/ CRUD
