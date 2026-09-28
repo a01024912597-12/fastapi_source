@@ -1,0 +1,2 @@
+service : CRUD 호출
+routes : 클라이언트 요청, service 함수 호출

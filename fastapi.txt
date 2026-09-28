@@ -1,0 +1,21 @@
+
+uvicorn main:app --reload
+uv run fastapi dev
+
+get: 조회
+post
+
+
+라우팅
+/todos/1 => 누가 응답할 것인가? (함수)
+
+
+다중 라우팅 => APIROUTER
+/users/ CRUD
+/items/ CRUD
+
+
+CORS policy 동일 출처 정책 브라우저가 차단
+http://localhost:5173/ => 'http://127.0.0.1:8000/todos'
+
+차단해제 : 서버 프로그램에서 CORS 설정
