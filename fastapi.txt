@@ -1,6 +1,7 @@
 
 uvicorn main:app --reload
 uv run fastapi dev
+python -m uvicorn main:app --reload
 
 get: 조회
 post
