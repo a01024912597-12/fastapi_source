@@ -1,18 +1,22 @@
 from fastapi import APIRouter, HTTPException, status
 from schemas.board import BoardUpdate,BoardPageResponse,BoardResponse,BoardCreate
-from services.board import create,update,select_all,select_one,delete
+from services.board import create,update,select_all,select_one,delete, recentPosts
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from repository.database import get_db
 from exceptions.board import BoardNotFoundException
 
+
 board_router = APIRouter(tags=["Boards"])
 
-# 전체 조회 + GET:http://localhost:8000/boards
-# 하나 조회 + GET:http://localhost:8000/boards/1
-# 하나 수정 + PUT:http://localhost:8000/boards/1 + 수정데이터
-# 하나 삭제 + DELETE:http://localhost:8000/boards/1 
-# 댓글 조회 + DELETE:http://localhost:8000/boards/1/comments
+# 최신글 조회 GET:http://localhost:8000/boards/recents
+@board_router.get("/recents", response_model=list[BoardResponse])
+async def get_boards_recents(db:Session = Depends(get_db)):
+    return recentPosts(db=db)
+
+
+
+
 
 # 전체 조회 + GET:http://localhost:8000/boards
 @board_router.get("", response_model=BoardPageResponse)

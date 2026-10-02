@@ -20,3 +20,6 @@ class User(Base):
 
     # user.boards.
     boards:Mapped[list["Board"]] = relationship(back_populates="user")
+
+    # user.comments
+    comments: Mapped[list["Comment"]] = relationship(back_populates="user")
