@@ -20,7 +20,6 @@ class CommentResponse(BaseModel):
 
     
 class BoardCreate(BaseModel):
-    user_id: int
     title: str
     contents:str
 

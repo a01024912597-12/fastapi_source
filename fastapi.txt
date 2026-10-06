@@ -20,3 +20,9 @@ CORS policy 동일 출처 정책 브라우저가 차단
 http://localhost:5173/ => 'http://127.0.0.1:8000/todos'
 
 차단해제 : 서버 프로그램에서 CORS 설정
+
+{
+  "email": "ljh@example.com",
+  "password": "Aa@01024912597",
+  "name": "이종혁"
+}

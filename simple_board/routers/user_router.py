@@ -23,7 +23,7 @@ from exceptions.user import (
     UserNotFoundException,
     SamePasswordException,
 )
-
+from schemas.user import Token
 auth_router = APIRouter(tags=["Users"])
 
 # 회원가입 /auth + post
@@ -45,10 +45,10 @@ async def post_signup(data: UserCreate, db: Session = Depends(get_db)) -> dict:
     return {"message": "회원가입이 완료되었습니다.", "user_id": user.user_id}
 
 
-@auth_router.post(path="/login", response_model=UserResponse)
-async def post_signin(data: UserLogin, db: Session = Depends(get_db)) -> UserResponse:
+@auth_router.post(path="/login", response_model=Token)
+async def post_signin(data: UserLogin, db: Session = Depends(get_db)) -> Token:
     try:
-        user = authenticate(data=data, db=db)
+        token = authenticate(data=data, db=db)
     except UserNotFoundException:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -60,7 +60,7 @@ async def post_signin(data: UserLogin, db: Session = Depends(get_db)) -> UserRes
             detail="아이디나 비밀번호를 확인해주세요",
         )
 
-    return user
+    return token
 
 
 @auth_router.patch(path="/{user_id}/name", response_model=dict)
