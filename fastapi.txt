@@ -2,9 +2,15 @@
 uvicorn main:app --reload
 uv run fastapi dev
 python -m uvicorn main:app --reload
+python -m alembic revision --autogenerate -m "init"
+# uv run alembic revision --autogenerate -m "add views"
+$ python -m alembic revision --autogenerate -m "add views"
 
 get: 조회
 post
+
+alembic : 데이터베이스 변경 이력 관리
+현재 프로젝트에 alembic 적용
 
 
 라우팅

@@ -59,9 +59,19 @@ def recentPosts(db:Session):
 
 
 
-# page, size 이용하는 전체 조회
-def select_all(db:Session,page:int,size:int):
+# page, size 이용하는 전체 조회 + 검색
+def select_all(db:Session,page:int,size:int, criteria:str, keyword:str):
     query = db.query(Board)
+
+    if keyword:
+        if criteria == "tc":
+            query=query.filter(Board.title.contains(keyword) | Board.contents.contains(keyword))
+        elif criteria == "t":
+            query = query.filter(Board.title.contains(keyword))
+
+        elif criteria == "w":
+            query = query.join(Board.user).filter(User.name.contains(keyword))
+
 
     # 전체 개수
     total = query.count()
@@ -75,19 +85,22 @@ def select_all(db:Session,page:int,size:int):
         "page":page,
         "size":size,
         "total_pages": total_pages,
+        "criteria":criteria,
+        "keyword":keyword,
     }
 
 # 삭제
-def delete(db:Session, id:int, current_user:User):
+def delete(db: Session, id: int, current_user: User):
     # 삭제할 대상 찾기
-    board = db.get(Board,id)
+    board = db.get(Board, id)
+
     if board is None:
-        BoardNotFoundException
+        raise BoardNotFoundException
 
     if board.user_id != current_user.user_id:
         raise UserCreditialsException
 
-    if board is None:
+    if board is not None:
         db.delete(board)
         db.commit()
         return id

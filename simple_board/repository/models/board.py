@@ -1,5 +1,5 @@
 from repository.database import Base
-from sqlalchemy import Identity, DateTime, String, ForeignKey
+from sqlalchemy import Identity, DateTime, String, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
@@ -21,6 +21,8 @@ class Board(Base):
     updated_at:Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now,onupdate=datetime.now
     )
+    # 조회수 컬럼
+    vies:Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     # 컬럼의 개념 아님(파이썬 객체간 연결)
     # board.user.email
