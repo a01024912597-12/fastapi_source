@@ -6,10 +6,10 @@ from sqlalchemy import pool
 from alembic import context
 
 # 데이터베이스와 연동하는 정보 추가
-from simple_board.repository.database import engine, Base
-from simple_board.repository.models.board import Board
-from simple_board.repository.models import User
-from simple_board.repository.models.comment import Comment
+from repository.database import engine, Base
+from repository.models.board import Board, Board_Views
+from repository.models.user import User
+from repository.models.comment import Comment
 
 
 # this is the Alembic Config object, which provides
@@ -32,6 +32,12 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+# python_user 의 모든 테이블 관리함 => 필요한 테이블만 지정
+def include_object(object,name,type_,reflected,compare_to):
+    if type_ == "table":
+        return name in {"boards","board_users","comments", "board_views"}
+    return True
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -51,6 +57,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        include_object=include_object
     )
 
     with context.begin_transaction():
@@ -68,7 +75,7 @@ def run_migrations_online() -> None:
 
     with engine.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, target_metadata=target_metadata, include_object=include_object
         )
 
         with context.begin_transaction():

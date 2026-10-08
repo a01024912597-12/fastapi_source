@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from schemas.board import BoardUpdate,BoardPageResponse,BoardResponse,BoardCreate
-from services.board import create,update,select_all,select_one,delete, recentPosts
+from services.board import create,update,select_all,select_one,delete, recentPosts, update_views
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from repository.database import get_db
@@ -35,6 +35,7 @@ async def get_board(
     
     try:
         board = select_one(db=db,id=id)
+        update_views(board=board, db=db, current_user=current_user)
     except BoardNotFoundException:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="찾는 board가 없습니다"

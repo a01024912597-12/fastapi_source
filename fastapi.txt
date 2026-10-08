@@ -4,8 +4,15 @@ uv run fastapi dev
 python -m uvicorn main:app --reload
 python -m alembic revision --autogenerate -m "init"
 # uv run alembic revision --autogenerate -m "add views"
-$ python -m alembic revision --autogenerate -m "add views"
+python -m alembic revision --autogenerate -m "add views"
 
+
+초기화 : alembic init 폴더명 => 지정한 폴더 + *.ini
+마이그레이션 파일 생성 : alembic revision --autogenerate -m 메세지
+최신 db상태로 업그레이드 : alembic upgrade head
+이전 버전으로 롤백 : alembic downgrade -1
+
+uv run alembic revision --autogenerate -m "add views"
 get: 조회
 post
 

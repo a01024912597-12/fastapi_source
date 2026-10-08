@@ -26,6 +26,7 @@ from exceptions.user import (
 from schemas.user import Token
 from repository.models.user import User
 from core.dependencies import get_current_user
+from fastapi.exceptions import RequestValidationError
 
 auth_router = APIRouter(tags=["Users"])
 
@@ -48,6 +49,7 @@ async def post_signup(data: UserCreate, db: Session = Depends(get_db)) -> dict:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="중복된 이메일이 존재합니다."
         )
+   
 
     return {"message": "회원가입이 완료되었습니다.", "user_id": user.user_id}
 
